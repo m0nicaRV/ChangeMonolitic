@@ -53,9 +53,7 @@ class PeticioneController extends Controller
                 if($res){
                     $res_file=$this->fileUpload($request,$peticion->id);
                     if($res_file){
-                        $peticion->file()->associate($res_file);
-                        $peticion->save();
-                        return redirect()->route('peticiones.listMine');
+                        return redirect()->route('peticiones.mine');
                     }
 
                     return back()->withErrors('Error creando peticion')->withInput();
@@ -87,51 +85,38 @@ class PeticioneController extends Controller
         }
         return 1;
     }
-
-    public function store2(request $request){
-
-        $validator =Validator::make($request->all(),[
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
-            'destinatario' => 'required|string|max:255',
-            'categoria' => 'required|exists:categorias,id',
-            'estado'=> 'required'
-        ]);
-        $categoria=Categoria::all();
-        if($validator->fails()){
-            return view('peticiones.create',compact('validator','categoria'));
+    public function firmar(Request $request, $id)
+    {
+        try {
+            $peticion = Peticione::findOrFail($id);
+            $user = Auth::user();
+            $firmas = $peticion->firmas;
+            foreach ($firmas as $firma) {
+                if ($firma->id == $user->id) {
+                    return back()->withError( "Ya has firmado esta petición")->withInput();
+                }
+            }
+            $user_id = [$user->id];
+            $peticion->firmas()->attach($user_id);
+            $peticion->firmantes = $peticion->firmantes + 1;
+            $peticion->save();
+        }catch (\Exception $exception){
+            return back()->withError( $exception->getMessage())->withInput();
+            }
+        return redirect()->back();
         }
 
-
-        $peticion= new Peticione;
-        $peticion['titulo']=$request->input('titulo');
-        $peticion['descripcion']=$request->input('descripcion');
-        $peticion['destinatario']=$request->input('destinatario');
-        $peticion['categoria_id']=$request->input('categoria');
-        $peticion['estado']=$request->input('estado');
-        $peticion['user_id']=1;
-        $peticion['firmantes']=0;
-        $peticion->save();
-
-
-
-        /*n$imagen=$request->file('image');
-
-
-        /*$nombreI=$imagen->getClientOriginalName();
-        $ruta=public_path('img/');
-        copy($imagen->getRealPath(),$ruta.$nombreI);
-
-        $imagenB= new File();
-        $imagenB['name']=$nombreI;
-        $imagenB['file_path']=$ruta;
-        $imagenB['peticion_id']=$peticion['id'];
-        $imagen->save();*/
-
-        $categoria=Categoria::find($peticion['categoria_id']);
-        return view('peticiones.show',compact('peticion','categoria'));
-
+    public function peticionesFirmadas(Request $request){
+        try {
+            $id = Auth::id();
+            $usuario = User::findOrFail($id);
+            $peticiones = $usuario->firmas;
+        }catch (\Exception $exception){
+            return back()->withError( $exception->getMessage())->withInput();
+        }
+        return view('peticiones.index', compact('peticiones'));
     }
+
     public function create(){
         $categoria=Categoria::all();
         return view('peticiones.create',compact('categoria'));

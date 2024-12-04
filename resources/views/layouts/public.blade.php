@@ -30,6 +30,9 @@
                     <li class="nav-item">
                         <a class="nav-link fs-4 m-2" href="{{ route('peticiones.mine') }}">Mis peticiones</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-4 m-2" href="{{ route('peticiones.peticionesfirmadas') }}">Mis firmas</a>
+                    </li>
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <form action="{{ route('logout') }}" method="POST">

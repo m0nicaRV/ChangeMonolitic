@@ -19,11 +19,18 @@
                 </span>
                 </p>
                 <p class="card-text">
-                    <strong>Usuario ID:</strong> {{$peticion['user_id']}}
+                    <strong>Usuario ID:</strong> {{$peticion->user->name}}
+                </p>
+                <p class="card-text">
+                    <strong>firmas:</strong> {{$peticion->firmantes}}
                 </p>
                 <p class="card-text">
                     <strong>Categoría:</strong> {{$categoria['nombre']}}
                 </p>
+                <a class="btn btn-success" href="{{route('peticiones.firmar', $peticion->id)}}" onclick="event.preventDefault();document.getElementById('firmar').submit();">firmar</a>
+                <form method="POST" id="firmar" action="{{route('peticiones.firmar', $peticion->id)}}" style="display: none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
