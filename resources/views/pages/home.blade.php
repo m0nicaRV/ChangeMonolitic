@@ -36,7 +36,7 @@
                     <div class="translucido p-2 rounded-3">
                         <h1 class="display-4">La plataforma mundial para el cambio</h1>
                         <p class="lead">541,907,023 personas han pasado a la acción. <a href="#" class="link-body-emphasis">Victorias cada día</a>.</p>
-                        <a>
+                        <a href="{{ route('peticiones.create') }}">
                             <button class="btn btn-danger btn-lg">Inicia una petición</button>
                         </a>
                     </div>

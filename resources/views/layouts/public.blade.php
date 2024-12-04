@@ -27,20 +27,24 @@
                     <a class="nav-link fs-4 m-2" href="{{ route('peticiones.create') }}">Inicia una petición</a>
                 </li>
                 @if(Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link fs-4 m-2" href="{{ route('peticiones.mine') }}">Mis peticiones</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-4 m-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{Auth::getUser()->name}}</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li> <a class="nav-link fs-4 m-2" href="{{ route('peticiones.mine') }}">Mis peticiones</a></li>
+                            <li> <a class="nav-link fs-4 m-2" href="{{ route('peticiones.peticionesfirmadas') }}">Mis firmas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <ul class="navbar-nav mx-auto">
+                                    <li class="nav-item">
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="nav-link fs-4 link-danger border-0 bg-transparent">Logout</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link fs-4 m-2" href="{{ route('peticiones.peticionesfirmadas') }}">Mis firmas</a>
-                    </li>
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="nav-link fs-4 link-danger border-0 bg-transparent">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
                 @else
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
@@ -55,9 +59,16 @@
         </div>
     </div>
 </nav>
-<div id="content">
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
+
     @yield('content')
-</div>
+
 
 
 

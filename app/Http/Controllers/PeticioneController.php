@@ -102,7 +102,7 @@ class PeticioneController extends Controller
             $peticion->save();
         }catch (\Exception $exception){
             return back()->withError( $exception->getMessage())->withInput();
-            }
+        }
         return redirect()->back();
         }
 
@@ -123,9 +123,14 @@ class PeticioneController extends Controller
     }
 
     public function show($id){
-        $peticion=Peticione::query()->findOrFail($id);
-        $categoria=Categoria::find($peticion['categoria_id']);
-        return view('peticiones.show',compact('peticion','categoria'));
+        try{
+            $peticion=Peticione::query()->findOrFail($id);
+            $categoria=Categoria::find($peticion['categoria_id']);
+            return view('peticiones.show',compact('peticion','categoria'));
+        }catch (\Exception $exception){
+            return back()->withError( $exception->getMessage())->withInput();
+        }
+
     }
 
 
