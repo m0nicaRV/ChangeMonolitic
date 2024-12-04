@@ -1,3 +1,6 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,14 +12,43 @@
 </head>
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
     <div class="container">
-        <a class="navbar-brand flex-row" href="#">change.org</a>
-        <div>
-            <a href="#" class="me-3 link-dark nav-item link-underline-opacity-0">Peticiones</a>
-            <a href="#" class="me-3 link-dark nav-item link-underline-opacity-0">Inicia una petición</a>
-            <a href="/peticiones/index" class="me-3 link-dark nav-item link-underline-opacity-0">Mis peticiones</a>
-            <a href="#"  class="me-3 link-dark nav-item link-underline-opacity-0">Programa de socios/as</a>
+        <a class="navbar-brand text-danger fs-2" href="{{route('home')}}">Change.org</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link fs-4 m-2" href="{{ route('peticiones.index') }}">Peticiones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-4 m-2" href="{{ route('peticiones.create') }}">Inicia una petición</a>
+                </li>
+                @if(Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link fs-4 m-2" href="{{ route('peticiones.mine') }}">Mis peticiones</a>
+                    </li>
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="nav-link fs-4 link-danger border-0 bg-transparent">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                @else
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link fs-4 m-2 link-danger" href="{{route('login')}}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fs-4 m-2 link-danger" href="{{route('register')}}">Register</a>
+                        </li>
+                    </ul>
+                @endif
+            </ul>
         </div>
     </div>
 </nav>

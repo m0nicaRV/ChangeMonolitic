@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeticioneController;
 
 /*
@@ -14,13 +16,24 @@ use App\Http\Controllers\PeticioneController;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
+});*/
+
+/*Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');*/
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 Route::get('/', [\App\Http\Controllers\PagesController::class, 'home'])->name('home');
 
-Route::get('/users/firmas', [\App\Http\Controllers\UserController::class,'peticionesFirmadas'])->middleware('auth');
-
+Route::get('/users/firmas', [\App\Http\Controllers\UserController::class, 'peticionesFirmadas'])->middleware('auth');
 Route::controller(\App\Http\Controllers\PeticioneController::class)->group(function () {
     Route::get('peticiones/index', 'index')->name('peticiones.index');
     Route::get('mispeticiones', 'listMine')->name('peticiones.mine');
@@ -33,3 +46,4 @@ Route::controller(\App\Http\Controllers\PeticioneController::class)->group(funct
     Route::post('peticiones/firmar/{id}', 'firmar')->name('peticiones.firmar');
     Route::get('peticiones/edit/{id}', 'update')->name('peticiones.edit');
 });
+require __DIR__.'/auth.php';

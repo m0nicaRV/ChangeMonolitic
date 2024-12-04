@@ -23,6 +23,14 @@ class User extends Authenticatable
         'password',
     ];
 
+    public function peticione(){
+        return $this->hasMany(Peticione::class);
+    }
+
+    public function firmas(){
+        return $this->belongsToMany(Peticione::class, 'peticione_user');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
