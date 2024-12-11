@@ -21,7 +21,42 @@ class PeticioneController extends Controller
     }
     public function index(){
         $peticiones=Peticione::where('estado', 'aceptada')->orderBy('created_at', 'desc')->get();
-        return view('peticiones.index',compact('peticiones',));
+        return view('peticiones.index',compact('peticiones'));
+    }
+
+    public function delete($id){
+        try{
+            $peticion=Peticione::query()->findOrFail($id);
+            if($peticion->user_id != Auth::id()){
+                return back()->withErrors('No es tuya esta peticion')->withInput();
+                }
+            $peticion->firmas()->detach();
+            $peticion->delete();
+            $peticiones=Peticione::where('estado', 'aceptada')->orderBy('created_at', 'desc')->get();
+            return view('peticiones.index',compact('peticiones'));
+        }catch (Exception $exception){
+            return back()->withErrors($exception->getMessage())->withInput();
+        }
+    }
+
+    function update(request $request, $id){
+        $validator =Validator::make($request->all(),[
+            'titulo' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'destinatario' => 'required|string|max:255',
+            'categoria' => 'required|exists:categorias,id',
+            'estado'=> 'required',
+        ]);
+        $input=$request->all();
+        try{
+            $peticion=Peticione::query()->findOrFail($id);
+            $peticion->fill($input);
+            $peticion->save();
+
+
+        }catch (Exception $exception){
+
+        }
 
     }
 
@@ -43,7 +78,6 @@ class PeticioneController extends Controller
             ]);
             $input=$request->all();
             try{
-
                 $user=Auth::user();
                 $peticion =new Peticione($input);
                 $peticion->categoria()->associate($input['categoria_id']);
@@ -62,9 +96,7 @@ class PeticioneController extends Controller
                 return back()->withErrors($exception->getMessage())->withInput();
 
             }
-            return ;
-
-    }
+            return ;}
 
     public function fileUpload(Request $req, $peticione_id = null){
         $file = $req->file('image');
@@ -85,6 +117,7 @@ class PeticioneController extends Controller
         }
         return 1;
     }
+
     public function firmar(Request $request, $id)
     {
         try {
@@ -129,13 +162,5 @@ class PeticioneController extends Controller
             return view('peticiones.show',compact('peticion','categoria'));
         }catch (\Exception $exception){
             return back()->withError( $exception->getMessage())->withInput();
-        }
-
-    }
-
-
-
-
-
-
+        }}
 }

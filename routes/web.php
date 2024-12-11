@@ -46,4 +46,9 @@ Route::controller(\App\Http\Controllers\PeticioneController::class)->group(funct
     Route::post('peticiones/firmar/{id}', 'firmar')->name('peticiones.firmar');
     Route::get('peticiones/edit/{id}', 'update')->name('peticiones.edit');
 });
+
+Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
+    Route::get('user/index', 'index')->name('user.index');
+
+});
 require __DIR__.'/auth.php';

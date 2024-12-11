@@ -2,6 +2,12 @@
 @extends('layouts.public')
 @section('content')
 
+    @if($errors->any())
+        <div class="alert alert-danger p-3 m-2 rounded-2 d-flex justify-content-center">
+            <span>{{ $errors->first() }}</span>
+        </div>
+    @endif
+
     <div class="container mt-4 my-5">
         <div class="card shadow border-0">
             <div class="row g-0">
@@ -32,6 +38,7 @@
                         <p class="card-text">
                             <strong>Categoría:</strong> {{$categoria['nombre']}}
                         </p>
+                        @if(Auth::check())
                         <a class="btn btn-success" href="{{route('peticiones.firmar', $peticion->id)}}"
                            onclick="event.preventDefault();document.getElementById('firmar').submit();">
                             Firmar
@@ -39,6 +46,20 @@
                         <form method="POST" id="firmar" action="{{route('peticiones.firmar', $peticion->id)}}" style="display: none;">
                             @csrf
                         </form>
+                        @if(Auth::id() == $peticion->user->id)
+                            <a class="btn btn-danger" href="{{route('peticiones.delete', $peticion->id)}}"
+                               onclick="event.preventDefault();document.getElementById('delete').submit();">
+                               Delete
+                            </a>
+                            <form  id="delete" action="{{route('peticiones.delete', $peticion->id)}}" style="display: none;" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            @endif
+
+
+
+                        @endif
                     </div>
                 </div>
             </div>

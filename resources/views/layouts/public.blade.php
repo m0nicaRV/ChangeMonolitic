@@ -32,6 +32,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li> <a class="nav-link fs-4 m-2" href="{{ route('peticiones.mine') }}">Mis peticiones</a></li>
                             <li> <a class="nav-link fs-4 m-2" href="{{ route('peticiones.peticionesfirmadas') }}">Mis firmas</a></li>
+
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <ul class="navbar-nav mx-auto">
