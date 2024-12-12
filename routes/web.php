@@ -42,9 +42,10 @@ Route::controller(\App\Http\Controllers\PeticioneController::class)->group(funct
     Route::get('peticion/add', 'create')->name('peticiones.create');
     Route::post('peticion', 'store')->name('peticiones.store');
     Route::delete('peticiones/{id}', 'delete')->name('peticiones.delete');
-    Route::put('peticiones/{id}', 'update')->name('peticiones.update');
+    Route::get('peticiones/edit/{id}', 'edit')->name('peticiones.edit');
+    Route::put('peticiones{id}', 'update')->name('peticiones.update');
     Route::post('peticiones/firmar/{id}', 'firmar')->name('peticiones.firmar');
-    Route::get('peticiones/edit/{id}', 'update')->name('peticiones.edit');
+
 });
 
 Route::controller(\App\Http\Controllers\UserController::class)->group(function () {

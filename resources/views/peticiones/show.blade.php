@@ -55,6 +55,7 @@
                                 @csrf
                                 @method('DELETE')
                             </form>
+                                <a class="btn btn-success fs-4 m-2 " href="{{route('peticiones.edit', $peticion->id) }}">actualizar</a>
                             @endif
 
 

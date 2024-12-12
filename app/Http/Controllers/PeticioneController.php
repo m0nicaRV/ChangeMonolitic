@@ -30,7 +30,6 @@ class PeticioneController extends Controller
             if($peticion->user_id != Auth::id()){
                 return back()->withErrors('No es tuya esta peticion')->withInput();
                 }
-            $peticion->firmas()->detach();
             $peticion->delete();
             $peticiones=Peticione::where('estado', 'aceptada')->orderBy('created_at', 'desc')->get();
             return view('peticiones.index',compact('peticiones'));
@@ -39,25 +38,32 @@ class PeticioneController extends Controller
         }
     }
 
+    public function edit( request $request,$id){
+        try{
+        $categoria=Categoria::all();
+        $peticion=Peticione::query()->findOrFail($id);
+        return view('peticiones.edit',compact('categoria', 'peticion'));
+        }catch (Exception $exception){
+            return view('peticiones.index');
+        }
+    }
+
     function update(request $request, $id){
-        $validator =Validator::make($request->all(),[
-            'titulo' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
-            'destinatario' => 'required|string|max:255',
-            'categoria' => 'required|exists:categorias,id',
-            'estado'=> 'required',
-        ]);
-        $input=$request->all();
         try{
             $peticion=Peticione::query()->findOrFail($id);
-            $peticion->fill($input);
-            $peticion->save();
-
-
+            $peticion->update($request->all());
+            /*$res=$peticion->save();
+            if($res){
+                $res_file=$this->fileUpload($request,$peticion->id);
+                if($res_file){
+                    return redirect()->route('peticiones.mine');
+                }
+                return back()->withErrors('Error creando peticion')->withInput();
+            }*/
         }catch (Exception $exception){
-
+            return back()->withErrors($exception->getMessage())->withInput();
         }
-
+        return false;
     }
 
     public function listMine(){
@@ -89,7 +95,6 @@ class PeticioneController extends Controller
                     if($res_file){
                         return redirect()->route('peticiones.mine');
                     }
-
                     return back()->withErrors('Error creando peticion')->withInput();
                 }
             }catch(\Exception $exception){
@@ -152,7 +157,8 @@ class PeticioneController extends Controller
 
     public function create(){
         $categoria=Categoria::all();
-        return view('peticiones.create',compact('categoria'));
+        $peticion=null;
+        return view('peticiones.create',compact('categoria', 'peticion'));
     }
 
     public function show($id){
