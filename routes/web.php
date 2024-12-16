@@ -43,7 +43,7 @@ Route::controller(\App\Http\Controllers\PeticioneController::class)->group(funct
     Route::post('peticion', 'store')->name('peticiones.store');
     Route::delete('peticiones/{id}', 'delete')->name('peticiones.delete');
     Route::get('peticiones/edit/{id}', 'edit')->name('peticiones.edit');
-    Route::put('peticiones{id}', 'update')->name('peticiones.update');
+    Route::put('peticiones/{id}', 'update')->name('peticiones.update');
     Route::post('peticiones/firmar/{id}', 'firmar')->name('peticiones.firmar');
 
 });
