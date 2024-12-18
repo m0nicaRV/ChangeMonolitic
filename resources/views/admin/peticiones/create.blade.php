@@ -1,4 +1,4 @@
-@extends('layouts.public')
+@extends('layouts.admin')
 @section('content')
 
     <div class="container-fluid">
@@ -8,7 +8,7 @@
     </div>
 
 
-        <form method="post" action="{{route('peticiones.store')}}" enctype="multipart/form-data" class="container mt-4 p-4 border rounded shadow my-3">
+        <form method="post" action="{{route('adminpeticiones.store')}}" enctype="multipart/form-data" class="container mt-4 p-4 border rounded shadow my-3">
         @csrf
         <div class="mb-3">
             <label for="titulo" class="form-label">Titulo:</label>
@@ -34,6 +34,13 @@
             @enderror
         </div>
 
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado:</label>
+            <select name="estado" id="estado" class="form-select">
+                <option value="aceptada">Aceptada</option>
+                <option value="pendiente">Pendiente</option>
+            </select>
+        </div>
 
         <div class="mb-3">
             <label for="categoria_id" class="form-label">Categoria:</label>
@@ -46,7 +53,7 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">Imagen:</label>
-            <input type="file" name="image" id="image" class="form-control @error('image')@enderror" required >
+            <input type="file" name="image" id="image" class="form-control @error('image')@enderror" required>
             @error('image')
             <div class="alert alert-danger">{{$message}}</div>
             @enderror

@@ -61,8 +61,7 @@ class PeticioneController extends Controller
                 return back()->withErrors('No es tuya esta peticion')->withInput();
                 }
             $peticion->delete();
-            $peticiones=Peticione::where('estado', 'aceptada')->orderBy('created_at', 'desc')->get();
-            return view('peticiones.index',compact('peticiones'));
+            return redirect()->route('peticiones.index');
         }catch (Exception $exception){
             return back()->withErrors($exception->getMessage())->withInput();
         }
@@ -100,8 +99,7 @@ class PeticioneController extends Controller
                 'descripcion' => 'required|string|max:255',
                 'destinatario' => 'required|string|max:255',
                 'categoria' => 'required|exists:categorias,id',
-                'estado'=> 'required',
-                'file'=>'required'
+                'file'=> 'required'
             ]);
             $input=$request->all();
             try{
@@ -110,6 +108,7 @@ class PeticioneController extends Controller
                 $peticion->categoria()->associate($input['categoria_id']);
                 $peticion->user()->associate($user);
                 $peticion->firmantes=0;
+                $peticion->estado="pendiente";
                 $res=$peticion->save();
                 if($res){
                     $res_file=$this->fileUpload($request,$peticion->id);
