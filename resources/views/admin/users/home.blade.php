@@ -31,20 +31,16 @@
                     <td>User</td>
                 @endif
                 <td>
-
                     <form action="{{route('adminusers.rol', $user->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('PUT')
                         <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-shift-fill"></i></button>
                     </form>
                     <a class="btn btn-primary btn-sm" href="{{route ('adminusers.show', $user->id)}}"><i class="bi bi-eye"></i></a>
-                    <a class="btn btn-danger btn-sm" href="{{route('adminusers.delete', $user->id)}}"
-                       onclick="event.preventDefault();document.getElementById('delete').submit();">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                    <form  id="delete" action="{{route('adminusers.delete', $user->id)}}" style="display: none;" method="POST">
+                    <form action="{{route('adminusers.delete', $user->id)}}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i></button>
                     </form>
 
                 </td>

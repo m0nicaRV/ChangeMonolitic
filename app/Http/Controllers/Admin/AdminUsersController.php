@@ -45,6 +45,9 @@ class AdminUsersController extends Controller
     public function delete($id){
         try {
             $user = User::findOrFail($id);
+            if(Peticione::where('user_id', $id)->exists()){
+                return back()->withErrors('no puedes eliminar usuarios con peticiones')->withInput();
+            }
             $user->delete();
         } catch (\Exception $exception) {
             return back()->withError($exception->getMessage())->withInput();
