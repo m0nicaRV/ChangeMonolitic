@@ -39,27 +39,6 @@
                             <strong>Categoría:</strong> {{$categoria['nombre']}}
                         </p>
 
-                        @if(Auth::check())
-                        <a class="btn btn-primary btn-sm" href="{{route('peticiones.firmar', $peticion->id)}}"
-                           onclick="event.preventDefault();document.getElementById('firmar').submit();">
-                            <i class="bi bi-feather"></i>
-                        </a>
-                        <form method="POST" id="firmar" action="{{route('peticiones.firmar', $peticion->id)}}" style="display: none;">
-                            @csrf
-                        </form>
-                        @if(Auth::id() == $peticion->user->id)
-                                <a class="btn btn-success btn-sm" href="{{route('peticiones.edit', $peticion->id)}}"><i class="bi bi-pencil"></i></a>
-                                <a class="btn btn-danger btn-sm" href="{{route('peticiones.delete', $peticion->id)}}"
-                                   onclick="event.preventDefault();document.getElementById('delete').submit();">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                                <form  id="delete" action="{{route('peticiones.delete', $peticion->id)}}" style="display: none;" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-
-                            @endif
-                        @endif
                     </div>
                 </div>
             </div>

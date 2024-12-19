@@ -60,6 +60,13 @@ Route::middleware('admin')->controller(\App\Http\Controllers\Admin\AdminPeticion
     Route::put('admin/peticiones/estado/{id}', 'cambiarEstado')->name('adminpeticiones.estado');
 });
 
+Route::middleware('admin')->controller(\App\Http\Controllers\Admin\AdminUsersController::class)->group(function () {
+    Route::get('admin/user/index', 'index')->name('adminusers.index');
+    Route::get('admin/user/{id}', 'show')->name('adminusers.show');
+    Route::delete('admin/user/{id}', 'delete')->name('adminusers.delete');
+    Route::put('admin/user/rol/{id}', 'cambiarRol')->name('adminusers.rol');
+});
+
 
 Route::controller(\App\Http\Controllers\UserController::class)->group(function () {
     Route::get('user/index', 'index')->name('user.index');

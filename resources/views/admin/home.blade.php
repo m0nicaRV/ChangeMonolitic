@@ -3,6 +3,13 @@
 
 
 @section('content')
+    <div class="container-fluid">
+        @if(session('error'))
+            <div class="alert alert-danger">{{session('error')}}</div>
+        @endif
+    </div>
+
+
     <div class="table-container">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4>Peticiones</h4>
@@ -33,27 +40,24 @@
                 <td>{{$peticion->estado}}</td>
                 <td>
                     <a class="btn btn-success btn-sm" href="{{route('adminpeticiones.edit', $peticion->id)}}"><i class="bi bi-pencil"></i></a>
-                    <a class="btn btn-success btn-sm" href="{{route('adminpeticiones.estado', $peticion->id)}}" onclick="event.preventDefault();document.getElementById('cambiarestado').submit();"><i class="bi bi-shift-fill"></i></a>
-                    <a class="btn btn-primary btn-sm" href="{{route ('adminpeticiones.show', $peticion->id)}}"><i class="bi bi-eye"></i></a>
-                    <a class="btn btn-danger btn-sm" href="{{route('adminpeticiones.delete', $peticion->id)}}"
-                       onclick="event.preventDefault();document.getElementById('delete').submit();">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                    <form  id="delete" action="{{route('adminpeticiones.delete', $peticion->id)}}" style="display: none;" method="POST">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                    <form  id="cambiarestado" action="{{route('adminpeticiones.estado', $peticion->id)}}" style="display: none;" method="POST">
+                    <form action="{{route('adminpeticiones.estado',$peticion->id)}}" method="post"
+                          class="d-inline">
                         @csrf
                         @method('PUT')
+                        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-shift-fill"></i></button>
+                    </form>
+                    <a class="btn btn-primary btn-sm" href="{{route ('adminpeticiones.show', $peticion->id)}}"><i class="bi bi-eye"></i></a>
+                    <form action="{{route('adminpeticiones.delete', $peticion->id)}}" method="post"
+                          class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm"> <i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>
             @endforeach
-            <!-- Más filas aquí -->
             </tbody>
         </table>
-        <!-- Paginación -->
         <nav>
             <ul class="pagination justify-content-center">
                 <li class="page-item"><a class="page-link" href="#">1</a></li>

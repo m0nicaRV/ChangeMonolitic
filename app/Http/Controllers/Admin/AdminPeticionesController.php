@@ -15,7 +15,9 @@ class AdminPeticionesController extends Controller
 {
 
     public function index(){
-        $peticiones=Peticione::where('estado', 'aceptada')->orderBy('created_at', 'desc')->get();
+
+        $peticiones = Peticione::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.home',compact('peticiones'));
     }
 
@@ -33,6 +35,9 @@ class AdminPeticionesController extends Controller
     public function delete($id){
         try{
             $peticion=Peticione::query()->findOrFail($id);
+            if($peticion->firmas()->count() > 0){
+                return back()->withErrors('no puedes eliminar peticiones firmadas')->withInput();
+            }
             $peticion->delete();
             return redirect()->route('admin.home');
         }catch (Exception $exception){
@@ -44,19 +49,15 @@ class AdminPeticionesController extends Controller
         try{
             $peticion=Peticione::query()->findOrFail($id);
             if($peticion->estado=="aceptada"){
-                $peticion->estado=="pendiente";
+                $peticion->estado="pendiente";
             }else{
-                $peticion->estado=="aceptada";
+                $peticion->estado="aceptada";
             }
             $peticion->save();
         }catch (Exception $exception){
             return back()->withErrors($exception->getMessage())->withInput();
         }
         return redirect()->route('admin.home');
-
-
-
-
     }
     public function store(request $request){
         $validator =Validator::make($request->all(),[

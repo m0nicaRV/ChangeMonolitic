@@ -43,7 +43,7 @@
         <nav>
             <a href="{{ route('admin.home') }}" class="mb-2"><i class="bi bi-list-check"></i> Peticiones</a>
             <a href="#" class="mb-2"><i class="bi bi-tags"></i> Categorías</a>
-            <a href="#"><i class="bi bi-people"></i> Usuarios</a>
+            <a href="{{ route('adminusers.index') }}"><i class="bi bi-people"></i> Usuarios</a>
         </nav>
     </div>
 
@@ -59,6 +59,11 @@
                 </div>
             </div>
         </nav>
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- Content Section -->
         <div class="container-fluid">

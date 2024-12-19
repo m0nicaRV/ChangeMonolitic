@@ -60,6 +60,9 @@ class PeticioneController extends Controller
             if($peticion->user_id != Auth::id()){
                 return back()->withErrors('No es tuya esta peticion')->withInput();
                 }
+            if($peticion->firmas()->count() > 0){
+                return back()->withErrors('no puedes eliminar peticiones firmadas')->withInput();
+            }
             $peticion->delete();
             return redirect()->route('peticiones.index');
         }catch (Exception $exception){
