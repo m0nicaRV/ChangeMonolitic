@@ -16,11 +16,14 @@
         @endif
         <div class="row">
             <div class="col">
-                <form method="post" action="{{route('admincategorias.store')}}" enctype="multipart/form-data" class="row g-3">
+                <form action="{{route('admincategorias.update',$categoria->id)}}" method="post"
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ $categoria->id }}">
                     @csrf
+                    @method('put')
                     <div class="col-md-8">
                         <label for="validationServer01" class="form-label">Nombre</label>
-                        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="validationServer01">
+                        <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="validationServer01" value="{{ old('titulo', $categoria->nombre) }}">
                         @error('nombre')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

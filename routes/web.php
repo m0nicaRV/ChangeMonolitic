@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [\App\Http\Controllers\PagesController::class, 'home'])->name('home');
 
 Route::get('/users/firmas', [\App\Http\Controllers\UserController::class, 'peticionesFirmadas'])->middleware('auth');
+
 Route::controller(\App\Http\Controllers\PeticioneController::class)->group(function () {
     Route::get('peticiones/index', 'index')->name('peticiones.index');
     Route::get('mispeticiones', 'listMine')->name('peticiones.mine');
@@ -59,6 +60,15 @@ Route::middleware('admin')->controller(\App\Http\Controllers\Admin\AdminPeticion
     Route::put('admin/peticiones/{id}', 'update')->name('adminpeticiones.update');
     Route::put('admin/peticiones/estado/{id}', 'cambiarEstado')->name('adminpeticiones.estado');
 });
+Route::middleware('admin')->controller(\App\Http\Controllers\Admin\AdminCategoriasController::class)->group(function () {
+    Route::get('admin/categorias/index', 'index')->name('admincategorias.index');
+    Route::get('admin/categoria/add', 'create')->name('admincategorias.create');
+    Route::get('admin/categorias/edit/{id}', 'editCategoria')->name('admincategorias.edit');
+    Route::post('admin/categorias', 'store')->name('admincategorias.store');
+    Route::delete('admin/categorias/{id}', 'dropCategoria')->name('admincategorias.delete');
+    Route::put('admin/categorias/{id}', 'updateCategoria')->name('admincategorias.update');
+});
+
 
 Route::middleware('admin')->controller(\App\Http\Controllers\Admin\AdminUsersController::class)->group(function () {
     Route::get('admin/user/index', 'index')->name('adminusers.index');
