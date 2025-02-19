@@ -30,10 +30,10 @@ class AdminUsersController extends Controller
     public function cambiarRol($id){
         try{
             $user=User::query()->findOrFail($id);
-            if($user->role_id==0){
-                $user->role_id=1;
+            if($user->role_id=='0'){
+                $user->role_id='1';
             }else{
-                $user->role_id=0;
+                $user->role_id='0';
             }
             $user->save();
         }catch (Exception $exception){

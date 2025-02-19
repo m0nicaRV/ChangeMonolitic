@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-=======
+
 @extends('layouts.public')
 @section('content')
 
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
@@ -46,11 +44,8 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-<<<<<<< HEAD
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-=======
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
+
                 {{ __('Already registered?') }}
             </a>
 
@@ -60,8 +55,7 @@
         </div>
     </form>
 </x-guest-layout>
-<<<<<<< HEAD
-=======
+
 
 @endsection
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
+

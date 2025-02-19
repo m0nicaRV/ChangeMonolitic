@@ -10,12 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
-<<<<<<< HEAD
+
 class AuthenticatedSessionController extends Controller
-=======
-class
-AuthenticatedSessionController extends Controller
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
 {
     /**
      * Display the login view.

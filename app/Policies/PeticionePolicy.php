@@ -13,7 +13,8 @@ class PeticionePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
+
     }
 
     /**
@@ -22,6 +23,7 @@ class PeticionePolicy
     public function view(User $user, Peticione $peticione): bool
     {
         //
+        return true;
     }
 
     /**
@@ -30,6 +32,7 @@ class PeticionePolicy
     public function create(User $user): bool
     {
         //
+        return true;
     }
 
     /**
@@ -38,6 +41,10 @@ class PeticionePolicy
     public function update(User $user, Peticione $peticione): bool
     {
         //
+        if ($user->role_id==1 || $user->id==$peticione->user_id) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -45,15 +52,26 @@ class PeticionePolicy
      */
     public function delete(User $user, Peticione $peticione): bool
     {
-        //
+        if (($user->role_id==1 || $user->id == $peticione->user_id) && $peticione->firmantes == 0  ) {
+            return true;
+        }
+        return false;
     }
-
+    public function firmar(User $user, Peticione $peticione): bool
+    {
+        if(!$peticione->firmas()->where('user_id', $user->id)->exists()){
+            return true;
+        }return false;
+    }
     /**
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, Peticione $peticione): bool
     {
-        //
+        if ($user->role_id==1 || $user->id==$peticione->user_id) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -62,5 +80,22 @@ class PeticionePolicy
     public function forceDelete(User $user, Peticione $peticione): bool
     {
         //
+        return true;
+    }
+
+    /*public function before(User $user, string $ability): ?bool
+    {
+        if ($user->role_id==1) {
+            return true;
+        }
+        return false;
+    }*/
+
+    public function cambiarEstado(User $user, Peticione $peticione): bool
+    {
+        if($user->role_id==1){
+            return true;
+        }
+        return false;
     }
 }

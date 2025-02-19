@@ -1,18 +1,12 @@
 <section>
     <header>
-<<<<<<< HEAD
+
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-=======
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
             {{ __("Update your account's profile information and email address.") }}
         </p>
     </header>
@@ -38,27 +32,18 @@
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
-<<<<<<< HEAD
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-=======
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-<<<<<<< HEAD
                         <p class="mt-2 font-medium text-sm text-green-600">
-=======
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
+
                             {{ __('A new verification link has been sent to your email address.') }}
                         </p>
                     @endif
@@ -75,11 +60,8 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-<<<<<<< HEAD
                     class="text-sm text-gray-600"
-=======
-                    class="text-sm text-gray-600 dark:text-gray-400"
->>>>>>> 0f06df6092cc400c5d2802eef646eb992ac1a523
+
                 >{{ __('Saved.') }}</p>
             @endif
         </div>
